@@ -29,6 +29,19 @@ player = Player(world.starting_room)
 # traversal_path = ['n', 'n']
 traversal_path = []
 
+# get the map adjecency list
+map_traversal = {}
+
+# get the rooms' ids player will go through
+rooms_path = []
+
+# helper method to reverse directions
+
+
+def reverse_direction(direction):
+    reverse_mapping = {"n": "s", "s": "n", "w": "e", "e": "w"}
+    return reverse_mapping[direction]
+
 
 
 # TRAVERSAL TEST - DO NOT MODIFY
