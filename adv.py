@@ -4,6 +4,7 @@ from world import World
 
 import random
 from ast import literal_eval
+from collections import deque
 
 # Load world
 world = World()
@@ -93,6 +94,57 @@ def breadth_first(curr_room):
             # go through the remaining exits and append to queue
             for n in room.get_exits():
                 queue.append(path + [room.get_room_in_direction(n)])
+
+
+# depth first traversal visits all exits with unexplored rooms until reaches dead end
+def depth_first(player_in_current_room):
+
+    stack = deque()
+    stack.append(player_in_current_room)
+
+    while len(stack) > 0:
+        # pop the current room from stack
+        curRoom = stack.pop()
+        # add the room id in rooms_path
+        rooms_path.append(curRoom.id)
+
+        # if curRoom is not None:
+        # check if current room not in map_traversal, if not we add room
+        if curRoom.id not in map_traversal:
+            add_room(curRoom)
+
+        # get random exit from unvisited in current room
+        random_ex = random_exit(curRoom)
+        # # print(random_ex)
+        # random_exit method returns none if there are no unvisited rooms
+        # so we check if there are some unvisited we add it to map_traversal
+        if random_ex != None:
+            if map_traversal[curRoom.id][random_ex] == None:
+                # add rooms with exits to map_traversal. add_exits makes directed connection between the rooms
+                add_exits(curRoom, curRoom.get_room_in_direction(
+                    random_ex), random_ex)
+                # add the next room to stack
+                stack.append(curRoom.get_room_in_direction(random_ex))
+        # if there are no unvisited rooms:
+        else:
+            # do the breadth first traversal if there is no unexplored exit in current room
+            path = breadth_first(curRoom)
+            # when done breadth first traversal and path is not none, return the room we are back
+            if path is not None:
+                # get the room we are back from breadth traversal
+                curRoom = path[-1]
+                # print(curRoom.id)
+                # get the random exit from unvisited
+                ran = random_exit(curRoom)
+                # if there are some unexplored exits, add them to map_traversal
+                if ran != None:
+                    if map_traversal[curRoom.id][ran] == None:
+                        # add rooms with exits to map_traversal. add_exits makes directed connection between the rooms
+                        add_exits(
+                            curRoom, curRoom.get_room_in_direction(ran), ran)
+                        # add the next room to stack
+                        stack.append(curRoom.get_room_in_direction(ran))
+
 
 
 # TRAVERSAL TEST - DO NOT MODIFY
