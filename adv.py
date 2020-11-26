@@ -146,6 +146,23 @@ def depth_first(player_in_current_room):
                         stack.append(curRoom.get_room_in_direction(ran))
 
 
+def get_directions():
+    # apply depth first and create our map_traversal and rooms_path
+    depth_first(player.current_room)
+    # go through map_traversal and return directions by the rooms id's from the rooms_path
+    for i in range(len(rooms_path)-1):
+        for key, val in map_traversal[rooms_path[i]].items():
+            if rooms_path[i+1] == val:
+                traversal_path.append(key)
+
+
+# main function call to get directions
+get_directions()
+
+# print(map_traversal)
+# print(rooms_path)
+# print(len(rooms_path))
+print(traversal_path)
 
 # TRAVERSAL TEST - DO NOT MODIFY
 visited_rooms = set()
