@@ -54,6 +54,22 @@ def add_exits(from_room, to_room, direction):
     map_traversal[from_room.id][direction] = to_room.id
     map_traversal[to_room.id][reverse_direction(direction)] = from_room.id
 
+# get the random exit with unexplored room
+def random_exit(current_room):
+    available_exits = []
+    for ex in current_room.get_exits():
+        if map_traversal[current_room.id][ex] == None:
+            available_exits.append(ex)
+
+    if len(available_exits) < 1:
+        result = None
+    else:
+        result = random.choice(available_exits)
+    return result
+
+
+
+
 # TRAVERSAL TEST - DO NOT MODIFY
 visited_rooms = set()
 player.current_room = world.starting_room
