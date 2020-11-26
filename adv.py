@@ -36,13 +36,16 @@ map_traversal = {}
 rooms_path = []
 
 # helper method to reverse directions
-
-
 def reverse_direction(direction):
     reverse_mapping = {"n": "s", "s": "n", "w": "e", "e": "w"}
     return reverse_mapping[direction]
 
-
+# helper to add the room to map_traversal
+def add_room(room):
+    if room.id not in map_traversal:
+        map_traversal[room.id] = {}
+        for d in room.get_exits():
+            map_traversal[room.id][d] = None
 
 # TRAVERSAL TEST - DO NOT MODIFY
 visited_rooms = set()
