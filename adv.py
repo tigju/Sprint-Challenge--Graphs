@@ -47,6 +47,13 @@ def add_room(room):
         for d in room.get_exits():
             map_traversal[room.id][d] = None
 
+# add direct relationship between rooms
+def add_exits(from_room, to_room, direction):
+    add_room(from_room)
+    add_room(to_room)
+    map_traversal[from_room.id][direction] = to_room.id
+    map_traversal[to_room.id][reverse_direction(direction)] = from_room.id
+
 # TRAVERSAL TEST - DO NOT MODIFY
 visited_rooms = set()
 player.current_room = world.starting_room
