@@ -67,7 +67,32 @@ def random_exit(current_room):
         result = random.choice(available_exits)
     return result
 
+# breadth first traversal gets the backtrack path, when there is no more depth in graph to explore
+def breadth_first(curr_room):
+    queue = deque()
+    player.current_room = curr_room
+    queue.append([player.current_room])
+    visited = set()
+    while len(queue) > 0:
+        path = queue.popleft()
+        # print([r.id for r in path])
+        room = path[-1]
+        # print(path)
+        if room not in visited:
+            if list(map_traversal[room.id].values()).count(None) != 0:
+                # get_rooms = [p.id for p in path[1:]]
+                # rooms_path.append(get_rooms)
 
+                # get the rooms path
+                [rooms_path.append(p.id) for p in path[1:]]
+
+                return path[1:]
+            # add to visited
+            visited.add(room)
+
+            # go through the remaining exits and append to queue
+            for n in room.get_exits():
+                queue.append(path + [room.get_room_in_direction(n)])
 
 
 # TRAVERSAL TEST - DO NOT MODIFY
